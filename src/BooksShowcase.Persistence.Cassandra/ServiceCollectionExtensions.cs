@@ -12,9 +12,15 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCassandraPersistence(this IServiceCollection serviceCollection) =>
         serviceCollection
             .AddScoped<IBooksReader, BooksReader>()
-            .AddSingleton(p => Cluster.Builder()
-                .AddContactPoints(p.GetRequiredService<IOptions<CassandraOptions>>().Value.Addresses)
-                .Build())
+            .AddScoped<IBooksWriter, BooksWriter>()
+            .AddSingleton(p =>
+            {
+                Mappings.SetGlobalMappings();
+                    
+                return Cluster.Builder()
+                    .AddContactPoints(p.GetRequiredService<IOptions<CassandraOptions>>().Value.Addresses)
+                    .Build();
+            })
             .AddScoped<ISession>(p =>
             {
                 var session = p.GetRequiredService<Cluster>()
@@ -24,5 +30,5 @@ public static class ServiceCollectionExtensions
 
                 return session;
             })
-            .AddScoped(p => new Mapper(p.GetRequiredService<ISession>()));
+            .AddScoped<IMapper>(p => new Mapper(p.GetRequiredService<ISession>()));
 }

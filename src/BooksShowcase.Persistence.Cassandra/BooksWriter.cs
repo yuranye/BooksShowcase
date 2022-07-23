@@ -1,17 +1,46 @@
 using BooksShowcase.Core;
+using BooksShowcase.Core.Handlers.Create;
+using BooksShowcase.Core.Handlers.Update;
 using BooksShowcase.Core.Models;
+using Cassandra.Mapping;
 
 namespace BooksShowcase.Persistence.Cassandra;
 
-public class BooksWriter: IBooksReader
+public class BooksWriter: IBooksWriter
 {
-    public Task<PagedResponse<Book>> GetPages(int? pageNumber = null, int? pageSize = null, string? nameFilter = null)
+    private readonly IMapper _mapper;
+
+    public BooksWriter(IMapper mapper)
     {
-        throw new NotImplementedException();
+        _mapper = mapper;
+    }
+    
+    public async Task<Book> CreateBook(CreateBookRequest request)
+    {
+        var newBook = new Book
+        {
+            Name = request.Name,
+            Uuid = Guid.NewGuid(), //TODO Add snowflake uuid generation
+        };
+        
+        await _mapper.InsertAsync(newBook);
+
+        return newBook;
     }
 
-    public Task<Book> GetBookById(Guid requestBookUuid)
+    public async Task DeleteBook(Guid bookUuid) =>
+        await _mapper.DeleteAsync(new Book { Uuid = bookUuid });
+
+    public async Task<Book> UpdateBook(UpdateBookRequest request)
     {
-        throw new NotImplementedException();
+        var newBook = new Book
+        {
+            Name = request.Name,
+            Uuid = request.BookUuid,
+        };
+        
+        await _mapper.UpdateAsync(newBook);
+
+        return newBook;
     }
 }

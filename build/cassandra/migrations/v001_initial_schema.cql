@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS books (uuid uuid PRIMARY KEY, name text);

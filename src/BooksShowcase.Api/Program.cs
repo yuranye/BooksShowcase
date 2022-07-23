@@ -1,9 +1,13 @@
 using BooksShowcase.Core;
 using BooksShowcase.Persistence.Cassandra;
+using BooksShowcase.Persistence.Cassandra.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCore();
+
+//cassandra
+builder.Services.Configure<CassandraOptions>(builder.Configuration.GetSection(CassandraOptions.Name));
 builder.Services.AddCassandraPersistence();
 
 builder.Services.AddControllers();

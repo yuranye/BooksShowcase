@@ -31,7 +31,7 @@ services:
   
   cassandra_migrations:
     image: yuranye/cassandra_migrations:0.0.1
-    command: migrate -h cassandra -k orders_keyspace -s scripts --port 9042 --force_keyspace
+    command: migrate -h ${CASSANDRA_ADDRESS_0} -k ${CASSANDRA_KEYSPACE} -s scripts --port 9042 --force_keyspace
     volumes:
       - ./build/cassandra/migrations/:/app/scripts
     depends_on:

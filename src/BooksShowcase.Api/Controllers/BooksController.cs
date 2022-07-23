@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BooksShowcase.Api.Controllers;
 
-
 [ApiController]
 [TypeFilter(typeof(NotFoundExceptionFilter))]
 public class BooksController : ControllerBase
@@ -26,7 +25,7 @@ public class BooksController : ControllerBase
     [HttpGet(BooksApiRoutes.Books)]
     public async Task<ActionResult<BooksPagedView>> Get([FromQuery] string? nameFilter)
     {
-        var response  = await _mediator.Send(new GetBooksRequest
+        var response = await _mediator.Send(new GetBooksRequest
         {
             NameFilter = nameFilter,
         });
@@ -38,7 +37,7 @@ public class BooksController : ControllerBase
             TotalRecords = response.TotalRecords,
             Data = response.Data.Select(b => new BookView
             {
-                Name = b.Name, 
+                Name = b.Name,
                 Uuid = b.Uuid,
             }),
         });
@@ -47,7 +46,7 @@ public class BooksController : ControllerBase
     [HttpGet(BooksApiRoutes.Books + "/{bookUuid:guid}")]
     public async Task<ActionResult<BooksPagedView>> Get([FromRoute] Guid bookUuid)
     {
-        var book  = await _mediator.Send(new GetBookRequest
+        var book = await _mediator.Send(new GetBookRequest
         {
             BookUuid = bookUuid,
         });
@@ -62,7 +61,7 @@ public class BooksController : ControllerBase
     [HttpPost(BooksApiRoutes.Books)]
     public async Task<ActionResult<BookView>> Create(CreateBookRequest request)
     {
-        var book  = await _mediator.Send(request);
+        var book = await _mediator.Send(request);
 
         return Ok(new BookView
         {
@@ -70,11 +69,11 @@ public class BooksController : ControllerBase
             Uuid = book.Uuid,
         });
     }
-    
+
     [HttpPut(BooksApiRoutes.Books)]
     public async Task<ActionResult<BookView>> Update(UpdateBookRequest request)
     {
-        var book  = await _mediator.Send(request);
+        var book = await _mediator.Send(request);
 
         return Ok(new BookView
         {
@@ -82,11 +81,11 @@ public class BooksController : ControllerBase
             Uuid = book.Uuid,
         });
     }
-    
-    [HttpGet(BooksApiRoutes.Books + "/{bookUuid:guid}")]
+
+    [HttpDelete(BooksApiRoutes.Books + "/{bookUuid:guid}")]
     public async Task<ActionResult<BookView>> Delete([FromRoute] Guid bookUuid)
     {
-        await _mediator.Send(new DeleteBookRequest());
+        await _mediator.Send(new DeleteBookRequest { BookUuid = bookUuid });
 
         return NoContent();
     }
