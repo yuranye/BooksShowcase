@@ -1,11 +1,8 @@
-using BooksShowcase.Core.Models;
-using BooksShowcase.Core.Models.Entities;
-using MediatR;
+namespace BooksShowcase.Core.Models.Entities;
 
-namespace BooksShowcase.Core.Handlers.Create;
-
-public class CreateBookRequest: IRequest<Book>
+public class Book
 {
+    public Guid Uuid { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime PublishDate { get; set; }

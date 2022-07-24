@@ -1,6 +1,7 @@
 using BooksShowcase.Core.Handlers.Create;
 using BooksShowcase.Core.Handlers.Update;
 using BooksShowcase.Core.Models;
+using BooksShowcase.Core.Models.Entities;
 
 namespace BooksShowcase.Core;
 

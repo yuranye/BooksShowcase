@@ -1,4 +1,4 @@
-using BooksShowcase.Core.Models;
+using BooksShowcase.Core.Models.Entities;
 using Cassandra;
 using Cassandra.Mapping;
 

@@ -1,5 +1,6 @@
 using BooksShowcase.Core.Exceptions;
 using BooksShowcase.Core.Models;
+using BooksShowcase.Core.Models.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -18,11 +19,11 @@ public class GetBookRequestHandler : IRequestHandler<GetBookRequest, Book>
 
     public async Task<Book> Handle(GetBookRequest request, CancellationToken cancellationToken)
     {
-        var book = await _booksReader.GetBookById(request.BookUuid);
+        var book = await _booksReader.GetBookById(request.Uuid);
 
         if (book == null)
         {
-            throw new NotFoundException(request.BookUuid.ToString());
+            throw new NotFoundException(request.Uuid.ToString());
         }
         
         return book;

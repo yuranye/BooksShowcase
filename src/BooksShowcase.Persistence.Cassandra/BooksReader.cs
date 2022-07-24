@@ -1,5 +1,6 @@
 ﻿using BooksShowcase.Core;
 using BooksShowcase.Core.Models;
+using BooksShowcase.Core.Models.Entities;
 using BooksShowcase.Persistence.Cassandra.Options;
 using Cassandra.Mapping;
 using Microsoft.Extensions.Options;

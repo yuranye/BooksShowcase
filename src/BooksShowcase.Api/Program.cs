@@ -10,6 +10,8 @@ builder.Services.AddCore();
 builder.Services.Configure<CassandraOptions>(builder.Configuration.GetSection(CassandraOptions.Name));
 builder.Services.AddCassandraPersistence();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

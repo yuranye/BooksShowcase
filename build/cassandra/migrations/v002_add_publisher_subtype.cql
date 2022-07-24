@@ -1,0 +1,1 @@
+CREATE TYPE IF NOT EXISTS books_keyspace.publisher(uuid uuid, name text, address text, contact_number text, email text);

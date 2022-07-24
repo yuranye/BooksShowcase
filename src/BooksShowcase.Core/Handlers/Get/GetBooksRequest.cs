@@ -1,4 +1,5 @@
 using BooksShowcase.Core.Models;
+using BooksShowcase.Core.Models.Entities;
 using MediatR;
 
 namespace BooksShowcase.Core.Handlers.Get;

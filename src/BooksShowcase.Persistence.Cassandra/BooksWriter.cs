@@ -2,6 +2,7 @@ using BooksShowcase.Core;
 using BooksShowcase.Core.Handlers.Create;
 using BooksShowcase.Core.Handlers.Update;
 using BooksShowcase.Core.Models;
+using BooksShowcase.Core.Models.Entities;
 using Cassandra.Mapping;
 
 namespace BooksShowcase.Persistence.Cassandra;
@@ -36,7 +37,7 @@ public class BooksWriter: IBooksWriter
         var newBook = new Book
         {
             Name = request.Name,
-            Uuid = request.BookUuid,
+            Uuid = request.Uuid,
         };
         
         await _mapper.UpdateAsync(newBook);

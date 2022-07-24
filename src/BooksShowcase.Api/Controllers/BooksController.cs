@@ -1,3 +1,4 @@
+using AutoMapper;
 using BooksShowcase.Api.ExceptionFilters;
 using BooksShowcase.Api.Views;
 using BooksShowcase.Core.Handlers.Create;
@@ -15,11 +16,13 @@ public class BooksController : ControllerBase
 {
     private readonly ILogger<BooksController> _logger;
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public BooksController(ILogger<BooksController> logger, IMediator mediator)
+    public BooksController(ILogger<BooksController> logger, IMediator mediator, IMapper mapper)
     {
         _logger = logger;
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpGet(BooksApiRoutes.Books)]
@@ -36,11 +39,7 @@ public class BooksController : ControllerBase
         {
             CurrentPageToken = response.CurrentPageToken,
             NextPageToken = response.NextPageToken,
-            Data = response.Data.Select(b => new BookView
-            {
-                Name = b.Name,
-                Uuid = b.Uuid,
-            }),
+            Data = response.Data.Select(b => _mapper.Map<BookView>(b)),
         });
     }
 
@@ -49,14 +48,10 @@ public class BooksController : ControllerBase
     {
         var book = await _mediator.Send(new GetBookRequest
         {
-            BookUuid = bookUuid,
+            Uuid = bookUuid,
         });
 
-        return Ok(new BookView
-        {
-            Name = book.Name,
-            Uuid = book.Uuid,
-        });
+        return Ok(_mapper.Map<BookView>(book));
     }
 
     [HttpPost(BooksApiRoutes.Books)]
@@ -64,11 +59,7 @@ public class BooksController : ControllerBase
     {
         var book = await _mediator.Send(request);
 
-        return Ok(new BookView
-        {
-            Name = book.Name,
-            Uuid = book.Uuid,
-        });
+        return Ok(_mapper.Map<BookView>(book));
     }
 
     [HttpPut(BooksApiRoutes.Books)]
@@ -76,11 +67,7 @@ public class BooksController : ControllerBase
     {
         var book = await _mediator.Send(request);
 
-        return Ok(new BookView
-        {
-            Name = book.Name,
-            Uuid = book.Uuid,
-        });
+        return Ok(_mapper.Map<BookView>(book));
     }
 
     [HttpDelete(BooksApiRoutes.Books + "/{bookUuid:guid}")]

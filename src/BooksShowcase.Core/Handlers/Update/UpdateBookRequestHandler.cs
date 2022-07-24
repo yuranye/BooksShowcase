@@ -1,5 +1,6 @@
 using BooksShowcase.Core.Exceptions;
 using BooksShowcase.Core.Models;
+using BooksShowcase.Core.Models.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -20,11 +21,11 @@ public class UpdateBookRequestHandler: IRequestHandler<UpdateBookRequest, Book>
     
     public async Task<Book> Handle(UpdateBookRequest request, CancellationToken cancellationToken)
     {
-        var existingBook = await _reader.GetBookById(request.BookUuid);
+        var existingBook = await _reader.GetBookById(request.Uuid);
 
         if (existingBook == null)
         {
-            throw new NotFoundException(request.BookUuid.ToString());
+            throw new NotFoundException(request.Uuid.ToString());
         }
         
         return await _writer.UpdateBook(request);
