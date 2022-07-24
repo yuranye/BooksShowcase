@@ -18,6 +18,6 @@ public class GetBooksRequestHandler: IRequestHandler<GetBooksRequest, PagedRespo
     public async Task<PagedResponse<Book>> Handle(GetBooksRequest request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Getting books {@Request}", request);
-        return await _booksReader.GetPages(request.PageNumber, request.PageSize, request.NameFilter);
+        return await _booksReader.GetPage(request.PageSize, request.PageToken, request.NameFilter);
     }
 }

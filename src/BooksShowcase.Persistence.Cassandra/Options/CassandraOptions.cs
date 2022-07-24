@@ -6,4 +6,5 @@ public class CassandraOptions
     
     public IEnumerable<string> Addresses { get; set; }
     public string Keyspace { get; set; }
+    public string PageTokenEncryptionKey { get; set; }
 }

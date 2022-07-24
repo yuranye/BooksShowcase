@@ -23,18 +23,19 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet(BooksApiRoutes.Books)]
-    public async Task<ActionResult<BooksPagedView>> Get([FromQuery] string? nameFilter)
+    public async Task<ActionResult<BooksPagedView>> Get([FromQuery] string? nameFilter, [FromQuery] int? pageSize, [FromQuery] string? pageToken)
     {
         var response = await _mediator.Send(new GetBooksRequest
         {
             NameFilter = nameFilter,
+            PageSize = pageSize,
+            PageToken = pageToken,
         });
 
         return Ok(new BooksPagedView
         {
-            PageIndex = response.PageIndex,
-            TotalPages = response.TotalPages,
-            TotalRecords = response.TotalRecords,
+            CurrentPageToken = response.CurrentPageToken,
+            NextPageToken = response.NextPageToken,
             Data = response.Data.Select(b => new BookView
             {
                 Name = b.Name,
