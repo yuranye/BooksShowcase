@@ -15,6 +15,6 @@ public class UpdateBookRequest: IRequest<Book>
     public string EanUpc { get; set; }
     public BookType Type { get; set; }
     public float Price { get; set; }
-    public Guid AuthorUuid { get; set; }
-    public Guid PublisherUuid { get; set; }
+    public IEnumerable<Author> Authors { get; set; }
+    public IEnumerable<Publisher> Publishers { get; set; }
 }

@@ -10,19 +10,19 @@ namespace BooksShowcase.Persistence.Cassandra;
 public class BooksWriter: IBooksWriter
 {
     private readonly IMapper _mapper;
+    private readonly AutoMapper.IMapper _autoMapper;
 
-    public BooksWriter(IMapper mapper)
+    public BooksWriter(IMapper mapper, AutoMapper.IMapper autoMapper)
     {
         _mapper = mapper;
+        _autoMapper = autoMapper;
     }
     
     public async Task<Book> CreateBook(CreateBookRequest request)
     {
-        var newBook = new Book
-        {
-            Name = request.Name,
-            Uuid = Guid.NewGuid(), //TODO Add snowflake uuid generation
-        };
+        var newBook = _autoMapper.Map<Book>(request);
+        
+        newBook.Uuid = Guid.NewGuid(); //TODO Add snowflake uuid generation
         
         await _mapper.InsertAsync(newBook);
 
@@ -34,14 +34,10 @@ public class BooksWriter: IBooksWriter
 
     public async Task<Book> UpdateBook(UpdateBookRequest request)
     {
-        var newBook = new Book
-        {
-            Name = request.Name,
-            Uuid = request.Uuid,
-        };
-        
-        await _mapper.UpdateAsync(newBook);
+        var book = _autoMapper.Map<Book>(request);
 
-        return newBook;
+        await _mapper.UpdateAsync(book);
+
+        return book;
     }
 }

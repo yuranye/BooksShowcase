@@ -11,11 +11,23 @@ public class Mappings
         MappingConfiguration.Global.Define(
             new Map<Book>()
                 .TableName("books")
-                .PartitionKey(u => u.Uuid));
+                .PartitionKey(u => u.Uuid)
+                .Column(u => u.EanUpc, cm => cm.WithName("ean_upc"))
+                .Column(u => u.PublishDate, cm => cm.WithName("publish_date")));
     }
 
     public static void AddUdtMaps(ISession session)
     {
-        //nested type mappings
+        session.UserDefinedTypes.Define(
+            UdtMap.For<Author>()
+                .Map(v => v.Name, "name")
+                .Map(v => v.About, "about")
+                .Map(v => v.Uuid, "uuid"),
+            UdtMap.For<Publisher>()
+                .Map(v => v.Name, "name")
+                .Map(v => v.Email, "email")
+                .Map(v => v.ContactNumber, "contact_number")
+                .Map(v => v.Address, "address")
+                .Map(v => v.Uuid, "uuid"));
     }
 }
