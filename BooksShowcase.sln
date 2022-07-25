@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooksShowcase.Persistence.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooksShowcase.Persistence.Clickhouse", "src\BooksShowcase.Persistence.Clickhouse\BooksShowcase.Persistence.Clickhouse.csproj", "{3AAD21F0-8D77-4A44-85FF-D22604976647}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooksShowcase.UnitTests", "test\BooksShowcase.UnitTests\BooksShowcase.UnitTests.csproj", "{00EB308F-EEFE-44CA-AD23-42017D187A07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{3AAD21F0-8D77-4A44-85FF-D22604976647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AAD21F0-8D77-4A44-85FF-D22604976647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AAD21F0-8D77-4A44-85FF-D22604976647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00EB308F-EEFE-44CA-AD23-42017D187A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00EB308F-EEFE-44CA-AD23-42017D187A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00EB308F-EEFE-44CA-AD23-42017D187A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00EB308F-EEFE-44CA-AD23-42017D187A07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
