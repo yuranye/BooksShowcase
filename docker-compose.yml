@@ -7,7 +7,7 @@ services:
       dockerfile: src/BooksShowcase.Api/Dockerfile
       target: final
     ports:
-      - "5080:5080"
+      - "5134:5134"
     env_file:
       - .env
     environment:
