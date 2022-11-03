@@ -7,7 +7,7 @@ services:
       dockerfile: src/BooksShowcase.Api/Dockerfile
       target: final
     ports:
-      - "5080:5080"
+      - "5134:5134"
     env_file:
       - .env
     environment:
@@ -15,6 +15,8 @@ services:
       CassandraOptions__Keyspace: ${CASSANDRA_KEYSPACE}
     depends_on:
       - cassandra_migrations
+      - kibana
+      - logstash
   
   cassandra:
     image: cassandra
@@ -37,5 +39,41 @@ services:
     depends_on:
       - cassandra
   
+  logstash:
+    image: logstash:7.17.5
+    volumes:
+      - ./config/logstash/pipeline:/usr/share/logstash/pipeline
+      - ./config/logstash/settings:/usr/share/logstash/config
+    ports:
+      - "8080:8080"
+    command: logstash -f /usr/share/logstash/pipeline/pipeline.conf
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elastic
+
   elastic:
-    image: elasticsearch
+    image: elasticsearch:7.17.5
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      discovery.type: single-node
+      ELASTIC_USER: ${ELASTIC_USER}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      xpack.license.self_generated.type: ${ELK_LICENSE}
+    volumes:
+      - elastic_state:/usr/share/elasticsearch/data:rw
+  
+  kibana:
+    image: kibana:7.17.5
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elastic:9200"
+    depends_on:
+      - elastic
+      
+
+volumes:
+  elastic_state: { }

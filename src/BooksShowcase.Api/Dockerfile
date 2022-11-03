@@ -1,18 +1,16 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5134
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["BooksShowcase.Api/BooksShowcase.Api.csproj", "BooksShowcase.Api/"]
-RUN dotnet restore "BooksShowcase.Api/BooksShowcase.Api.csproj"
-COPY . .
-WORKDIR "/src/BooksShowcase.Api"
-RUN dotnet build "BooksShowcase.Api.csproj" -c Release -o /app/build
+
+COPY src/. ./src
+
+RUN dotnet restore "src/BooksShowcase.Api/BooksShowcase.Api.csproj"
+RUN dotnet build "src/BooksShowcase.Api/BooksShowcase.Api.csproj" -c Release --no-restore -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "BooksShowcase.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/BooksShowcase.Api/BooksShowcase.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
